@@ -21,10 +21,6 @@ const config = {
     src: './src/js/**/*.js',
     dest: './public/assets/js/',
   },
-  pwa: {
-    src: './src/pwa/**/*',
-    dest: './public/',
-  },
   images: {
     src: './src/images/**/*.{jpg,jpeg,png,svg,ico}',
     dest: './public/assets/images/',
@@ -88,11 +84,6 @@ const scripts = () => {
     .pipe(gulp.dest(config.scripts.dest));
 };
 
-// PWA
-const pwa = () => {
-  return gulp.src(config.pwa.src).pipe(gulp.dest(config.pwa.dest));
-};
-
 // Images
 const images = () => {
   return gulp
@@ -128,7 +119,6 @@ const html = () => {
 const watch = () => {
   gulp.watch(config.styles.src, gulp.series(styles, reload));
   gulp.watch(config.scripts.src, gulp.series(scripts, reload));
-  gulp.watch(config.pwa.src, gulp.series(scripts, reload));
   gulp.watch(config.images.src, gulp.series(images, reload));
   gulp.watch(config.fonts.src, gulp.series(fonts, reload));
   gulp.watch(config.html.src, gulp.series(html, reload));
@@ -146,7 +136,6 @@ export const dev = gulp.parallel(
   images,
   fonts,
   html,
-  pwa,
   watch,
   server,
 );
@@ -154,7 +143,7 @@ export const dev = gulp.parallel(
 // Build - public
 export const build = gulp.series(
   clean,
-  gulp.parallel(styles, scripts, images, fonts, html, pwa),
+  gulp.parallel(styles, scripts, images, fonts, html),
 );
 
 // Default
